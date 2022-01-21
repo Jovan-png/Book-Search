@@ -9,12 +9,15 @@ const resolvers = {
           if (context.user) {
             const userData = await User.findOne({ _id: context.user._id })
               .select('-__v -password')
+              .populate('books');
+    
             return userData;
           }
     
           throw new AuthenticationError('Not logged in');
         }
       },
+    
       Mutation:{
         addUser: async (parent, args) => {
             const user = await User.create(args);
@@ -51,7 +54,7 @@ const resolvers = {
       
             throw new AuthenticationError('You need to be logged in!');
           },
-          removeBook: async (parent, { userId, reactionBody }, context) => {
+          deleteBook: async (parent, { userId, reactionBody }, context) => {
             if (context.user) {
               const updatedUser = await User.findOneAndUpdate(
                 { _id: userId },
