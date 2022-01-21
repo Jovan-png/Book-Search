@@ -10,6 +10,8 @@ type User {
 }
 type Query{
     me: User
+    users: [User]
+    user(username: String!): User
 }
 type Book {
     _id: ID

@@ -38,7 +38,7 @@ const SavedBooks = () => {
   // }, [userDataLength]);
 
   const { loading, data } = useQuery(Get_ME);
-
+  const [deleteBook] = useMutation(DELETE_BOOK)
 
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
@@ -50,7 +50,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const [deleteBook] = useMutation(DELETE_BOOK, token)
+      const { response } = await deleteBook();
 
       if (!response.ok) {
         throw new Error('something went wrong!');
