@@ -4,27 +4,31 @@ import { ADD_USER } from '../utils/mutation';
 // import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-const SignupForm = () => {
-  // set initial form state
-  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated] = useState(false);
-  // set state for alert
-  const [showAlert, setShowAlert] = useState(false);
+const Signup = () => {
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [addUser, { error }] = useMutation(ADD_USER);
 
-  const handleInputChange = (event) => {
+  // update state based on form input changes
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
-  };
-  const [addUser, {error}] = useMutation(ADD_USER);
 
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-
     try {
       const { data } = await addUser({
-        variables: { ...userFormData },
+        variables: { ...formState },
       });
 
       Auth.login(data.addUser.token);
@@ -49,7 +53,7 @@ const SignupForm = () => {
             type='text'
             placeholder='Your username'
             name='username'
-            onChange={handleInputChange}
+            onChange={handleChange}
             value={userFormData.username}
             required
           />
@@ -62,7 +66,7 @@ const SignupForm = () => {
             type='email'
             placeholder='Your email address'
             name='email'
-            onChange={handleInputChange}
+            onChange={handleChange}
             value={userFormData.email}
             required
           />
@@ -75,7 +79,7 @@ const SignupForm = () => {
             type='password'
             placeholder='Your password'
             name='password'
-            onChange={handleInputChange}
+            onChange={handleChange}
             value={userFormData.password}
             required
           />
