@@ -1,6 +1,6 @@
 import React, { useState, useEffect,  } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import { Get_ME, } from '../utils/queries';
+import { GET_ME, } from '../utils/queries';
 import { DELETE_BOOK } from '../utils/mutation';
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
@@ -37,7 +37,7 @@ const SavedBooks = () => {
   //   getUserData();
   // }, [userDataLength]);
 
-  const { loading, data } = useQuery(Get_ME);
+  const { loading, data } = useQuery(GET_ME);
   const [deleteBook] = useMutation(DELETE_BOOK)
 
 
